@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>原生Promise_使用测试</title>
+</head>
+<body>
+<!--
+
+<script type="text/javascript">
+  // 创建promise对象
+  const p = new Promise((resolve, reject) => { // 在Promise内部会同步执行executor函数
+    console.log('executor()')
+    // 1. 执行异步操作(比如发ajax请求, 启动定时器)
+    setTimeout(() => {
+      const time = Date.now() // 得到当前的时间: 如果是偶数代表成功, 否则代表失败
+      // 2.1. 如果操作成功了, 调用resolve(value)来指定成功和成功的数据
+      if(time%2 === 0) {
+        resolve('成功的数据')  // 内部有没有直接: onResolved('成功的数据')
+        console.log('resolve()之后')
+      // 2.2. 如果操作失败了, 调用reject(reason)来指定失败及失败的原因
+      } else {
+        reject('失败的原因数据')
+        console.log('reject()之后')
+      }
+    }, 1000)
+  })
+  console.log('new Promise()之后', p)
+
+  p.then(
+    value => {
+      console.log('onResolved()', value)
+    },
+    reason => {
+      console.log('onRejected()', reason)
+    },
+  )
+  console.log('then()之后')
+
+</script>
+-->
+
+<script type="text/javascript">
+  /*new Promise((resolve, reject) => { // 在Promise内部会同步执行executor函数
+    // resolve(1)  // 指定成功及成功的value
+    reject(1) // 指定失败及失败的reason
+    // throw 1 // 抛出异常
+  }).then(
+    value => {
+      console.log('onResolved()', value)
+      // return 2
+      // throw 2
+      // return Promise.resolve(2)
+      return Promise.reject(2)
+    },
+    reason => {
+      console.log('onRejected()', reason)
+    },
+  ).then(
+    value => {
+      console.log('onResolved()2', value)
+    },
+    reason => {
+      console.log('onRejected()2', reason)
+    }
+  )*/
+
+  const p1 = Promise.resolve(3)
+  const p2 = Promise.resolve(Promise.resolve(5))
+  const p3 = Promise.reject(6)
+
+  Promise.all([p1, 'abc', p3, p2]).then(
+    values => {
+      console.log('onResolved()', values)
+    },
+    reason => {
+      console.log('onRejected()', reason)
+    }
+  )
+</script>
+
+</body>
+</html>
